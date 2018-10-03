@@ -54,6 +54,12 @@ export default class StudentDetails extends Component {
     this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
   }
 
+  proceedHandlerWithAdminPermissions = async(password) => {
+    console.log('Admin Password :'+password);
+    const questions = await this.getQuestions();
+    this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
+  }
+
   getColleges() {
     return axios.get('colleges', { headers: { 'Access-Control-Allow-Origin': '*' } });
   }
@@ -183,7 +189,7 @@ export default class StudentDetails extends Component {
       />
     ) :
       (<div className="rct-session-wrapper">
-        <AdminConfirmDialog proceedHandler={this.proceedHandler} showDialogHandler={this.showDialogHandler} showDialog={this.state.showDialog} />
+        <AdminConfirmDialog proceedHandlerWithAdminPermissions={this.proceedHandlerWithAdminPermissions} showDialogHandler={this.showDialogHandler} showDialog={this.state.showDialog} />
         <AppBar position="static" className="session-header">
           <Toolbar>
             <div className="container">

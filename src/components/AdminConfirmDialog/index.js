@@ -14,6 +14,7 @@ export default class FormDialog extends React.Component {
 
 	state = {
 		open: false,
+		password:''
 	};
 
 	componentDidMount(){
@@ -29,13 +30,13 @@ export default class FormDialog extends React.Component {
 						<DialogContentText>
 							To Apply for Re-test, Enter Admin Password.
             		</DialogContentText>
-						<TextField autoFocus margin="dense" id="password" label="password" type="password" fullWidth />
+						<TextField onChange={(event) => this.setState({ password: event.target.value })} autoFocus margin="dense" id="password" label="password" type="password" fullWidth />
 					</DialogContent>
 					<DialogActions>
 						<Button variant="raised" onClick={this.props.showDialogHandler} color="primary" className="text-white">
 							Cancel
             		</Button>
-						<Button variant="raised" onClick={this.props.proceedHandler} className="btn-info text-white">
+						<Button variant="raised" onClick={()=>this.props.proceedHandlerWithAdminPermissions(this.state.password)} className="btn-info text-white">
 							Proceed
             		</Button>
 					</DialogActions>
