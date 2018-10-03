@@ -50,13 +50,12 @@ export default class StudentDetails extends Component {
     this.setState({ showDialog: !this.state.showDialog })
   }
   proceedHandler = async() => {
-    const questions = await this.getQuestions();
+    const questions = await this.getQuestions('questions');
     this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
   }
 
   proceedHandlerWithAdminPermissions = async(password) => {
-    console.log('Admin Password :'+password);
-    const questions = await this.getQuestions();
+    const questions = await this.getQuestions('questionswithAdminPermission',password);
     this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
   }
 
@@ -169,13 +168,14 @@ export default class StudentDetails extends Component {
     return transFormedDS;
   };
 
-  getQuestions = async () => {
+  getQuestions = async (api,password) => {
     const token = localStorage.getItem('espltoken');
-    const rawQuestionsData = await axios.get('questions',
+    const rawQuestionsData = await axios.get(api,
       {
-        headers: { 'x-auth-token': token }
+        headers: { 'x-auth-token': token, 'admin-secret':password }
       }
     );
+    console.log(rawQuestionsData);
     const questions = this.preProcessQuestions(rawQuestionsData.data);
     return questions;
   }
