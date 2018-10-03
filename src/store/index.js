@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'C:/Users/hemkant.gangurde/AppData/Local/Microsoft/TypeScript/2.9/node_modules/redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import Thunk from 'redux-thunk';
 import reducers from '../reducers';
 
