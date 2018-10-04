@@ -299,7 +299,7 @@ class Test extends Component {
                 ref={this.countDownTimer}
                 loadNextQuestion={this.loadNextQuestion}
               />
-              <div className="session-body">
+              <div className="session-body" style={{ marginTop: "-30px" }}>
                 <div className="session-head mb-15">
                   <h2 className="d-flex">
                     {this.state.currentQuestion != null

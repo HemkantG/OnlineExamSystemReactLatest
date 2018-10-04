@@ -397,7 +397,7 @@ export default class StudentDetails extends Component {
                     </div>
                     <FormGroup style={formGrpStyle} className="mb-15">
                       <Button type='submit'
-                        className="btn-info text-white btn-block w-100"
+                        className="btn-success text-white btn-block w-100"
                         variant="raised"
                         size="large">
                         Start Test

@@ -64,7 +64,7 @@ export default class Instructions extends Component {
                                 </ol>
                             </RctCollapsibleCard>
                             <Link to="/register">
-                                <MatButton variant="raised" color="primary"  className="mr-10 mb-10 text-white btn-icon" size="medium">
+                                <MatButton variant="raised" color="primary"  className="mr-10 mb-10 btn-success text-white btn-icon" size="medium">
                                     Acknowledge & Proceed
                                     <i className="zmdi zmdi-check-all"></i>
                                 </MatButton>
