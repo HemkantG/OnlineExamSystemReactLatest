@@ -49,13 +49,13 @@ export default class StudentDetails extends Component {
   showDialogHandler = () => {
     this.setState({ showDialog: !this.state.showDialog })
   }
-  proceedHandler = async() => {
+  proceedHandler = async () => {
     const questions = await this.getQuestions('questions');
     this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
   }
 
-  proceedHandlerWithAdminPermissions = async(password) => {
-    const questions = await this.getQuestions('questionswithAdminPermission',password);
+  proceedHandlerWithAdminPermissions = async (password) => {
+    const questions = await this.getQuestions('questionswithAdminPermission', password);
     this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
   }
 
@@ -168,11 +168,11 @@ export default class StudentDetails extends Component {
     return transFormedDS;
   };
 
-  getQuestions = async (api,password) => {
+  getQuestions = async (api, password) => {
     const token = localStorage.getItem('espltoken');
     const rawQuestionsData = await axios.get(api,
       {
-        headers: { 'x-auth-token': token, 'admin-secret':password }
+        headers: { 'x-auth-token': token, 'admin-secret': password }
       }
     );
     console.log(rawQuestionsData);
@@ -196,7 +196,7 @@ export default class StudentDetails extends Component {
               <div className="d-flex justify-content-between">
                 <div className="session-logo">
                   <Link to="/">
-                    <img src={AppConfig.appLogo} alt="session-logo" width="110" height="35" />
+                    <img src={AppConfig.appLogoFull} alt="session-logo" width="200" height="30" />
                   </Link>
                 </div>
               </div>
@@ -207,15 +207,15 @@ export default class StudentDetails extends Component {
           <div className="container">
             <div className="row row-eq-height">
               <div className="col-sm-12 col-md-12 col-lg-12">
-                <div className="session-body text-center">
+                <div className="session-body text-center" style={{ marginTop: "-20px" }}>
                   <div className="session-head mb-15">
                     <h2>Get started with {AppConfig.brandName}</h2>
                   </div>
                   <Form onSubmit={this.onFormSubmitHandler}>
                     <div className="row">
                       <div className="col-md-4">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.userId} name="user-id" idpx="user-id" className="has-input input-lg" placeholder="User Id" onChange={(e) => this.setState({ userId: e.target.value })} required />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.userId} name="user-id" idpx="user-id" className="has-input input-lg" placeholder="User Id" onChange={(e) => this.setState({ userId: e.target.value })} required />
                           <span className="has-icon"><i className="ti-user"></i></span>
                         </FormGroup>
                       </div>
@@ -223,20 +223,20 @@ export default class StudentDetails extends Component {
 
                     <div className="row">
                       <div className="col-md-4">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.fname} name="user-name" id="user-name" className="has-input input-lg" placeholder="First Name" onChange={(e) => this.setState({ fname: e.target.value })} required />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.fname} name="user-name" id="user-name" className="has-input input-lg" placeholder="First Name" onChange={(e) => this.setState({ fname: e.target.value })} required />
                           <span className="has-icon"><i className="ti-user"></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-4">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.mname} name="user-name" id="user-name" className="has-input input-lg" placeholder="Middle Name" onChange={(e) => this.setState({ mname: e.target.value })} />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.mname} name="user-name" id="user-name" className="has-input input-lg" placeholder="Middle Name" onChange={(e) => this.setState({ mname: e.target.value })} />
                           <span className="has-icon"><i className="ti-user"></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-4">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.lname} name="user-name" id="user-name" className="has-input input-lg" placeholder="Last Name" onChange={(e) => this.setState({ lname: e.target.value })} required />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.lname} name="user-name" id="user-name" className="has-input input-lg" placeholder="Last Name" onChange={(e) => this.setState({ lname: e.target.value })} required />
                           <span className="has-icon"><i className="ti-user"></i></span>
                         </FormGroup>
                       </div>
@@ -288,14 +288,14 @@ export default class StudentDetails extends Component {
 
                     <div className="row">
                       <div className="col-md-6">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.contact} pattern="[6789][0-9]{9}" title="Ten Digits number only" name="user-contact" id="contact" className="has-input input-lg" placeholder="Contact Number" onChange={(e) => this.setState({ contact: e.target.value })} required />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.contact} pattern="[6789][0-9]{9}" title="Ten Digits number only" name="user-contact" id="contact" className="has-input input-lg" placeholder="Contact Number" onChange={(e) => this.setState({ contact: e.target.value })} required />
                           <span className="has-icon"><i className="ti-mobile"></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-6">
-                        <FormGroup className="has-wrapper">
-                          <Input type="mail" value={this.state.email} name="user-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Enter valid email address" id="user-mail" className="has-input input-lg" placeholder="Enter Email Address" onChange={(e) => this.setState({ email: e.target.value })} required />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="mail" value={this.state.email} name="user-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Enter valid email address" id="user-mail" className="has-input input-lg" placeholder="Enter Email Address" onChange={(e) => this.setState({ email: e.target.value })} required />
                           <span className="has-icon"><i className="ti-email"></i></span>
                         </FormGroup>
                       </div>
@@ -303,14 +303,14 @@ export default class StudentDetails extends Component {
 
                     <div className="row">
                       <div className="col-md-6">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.address1} name="user-address1" id="addressLine1" className="has-input input-lg" placeholder="Address Line 1" onChange={(e) => this.setState({ address1: e.target.value })} />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.address1} name="user-address1" id="addressLine1" className="has-input input-lg" placeholder="Address Line 1" onChange={(e) => this.setState({ address1: e.target.value })} />
                           <span className="has-icon"><i className="ti-home"></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-6">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.address2} name="user-address2" id="addressLine2" className="has-input input-lg" placeholder="Address Line 2" onChange={(e) => this.setState({ address2: e.target.value })} />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.address2} name="user-address2" id="addressLine2" className="has-input input-lg" placeholder="Address Line 2" onChange={(e) => this.setState({ address2: e.target.value })} />
                           <span className="has-icon"><i className="ti-home"></i></span>
                         </FormGroup>
                       </div>
@@ -318,14 +318,14 @@ export default class StudentDetails extends Component {
 
                     <div className="row">
                       <div className="col-md-6">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.city} name="user-city" id="city" className="has-input input-lg" placeholder="City" onChange={(e) => this.setState({ city: e.target.value })} />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.city} name="user-city" id="city" className="has-input input-lg" placeholder="City" onChange={(e) => this.setState({ city: e.target.value })} />
                           <span className="has-icon"><i className="ti-world"></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-6">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.pincode} name="user-pincode" id="pincode" className="has-input input-lg" placeholder="Pin Code" onChange={(e) => this.setState({ pincode: e.target.value })} />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.pincode} name="user-pincode" id="pincode" className="has-input input-lg" placeholder="Pin Code" onChange={(e) => this.setState({ pincode: e.target.value })} />
                           <span className="has-icon"><i className="ti-home"></i></span>
                         </FormGroup>
                       </div>
@@ -383,19 +383,19 @@ export default class StudentDetails extends Component {
                     </div>
                     <div className="row">
                       <div className="col-md-6">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.referredbyName} name="user-tponame" id="tpoName" className="has-input input-lg" placeholder="Referred By/TPO Details" onChange={(e) => this.setState({ referredbyName: e.target.value })} />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.referredbyName} name="user-tponame" id="tpoName" className="has-input input-lg" placeholder="Referred By/TPO Details" onChange={(e) => this.setState({ referredbyName: e.target.value })} />
                           <span className="has-icon"><i className="ti-user"></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-6">
-                        <FormGroup className="has-wrapper">
-                          <Input type="text" value={this.state.referredbyContact} name="user-tpocontact" id="user-tpocontact" pattern="[6789][0-9]{9}" title="Ten Digits Number only" className="has-input input-lg" placeholder="Referred By/TPO - Contact" onChange={(e) => this.setState({ referredbyContact: e.target.value })} />
+                        <FormGroup style={formGrpStyle} className="has-wrapper">
+                          <Input style={inputStyle} type="text" value={this.state.referredbyContact} name="user-tpocontact" id="user-tpocontact" pattern="[6789][0-9]{9}" title="Ten Digits Number only" className="has-input input-lg" placeholder="Referred By/TPO - Contact" onChange={(e) => this.setState({ referredbyContact: e.target.value })} />
                           <span className="has-icon"><i className="ti-user"></i></span>
                         </FormGroup>
                       </div>
                     </div>
-                    <FormGroup className="mb-15">
+                    <FormGroup style={formGrpStyle} className="mb-15">
                       <Button type='submit'
                         className="btn-info text-white btn-block w-100"
                         variant="raised"
@@ -418,3 +418,11 @@ const loaderStyle = {
   top: "50%",
   left: "50%"
 };
+
+const inputStyle = {
+  height: "auto"
+}
+
+const formGrpStyle = {
+  marginBottom: "0.7rem"
+}

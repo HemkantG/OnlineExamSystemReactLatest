@@ -17,7 +17,7 @@ export default class NotFound extends Component {
                 <div className="d-flex justify-content-between">
                   <div className="session-logo">
                     <Link to="/">
-                      <img src={require('Assets/img/site-logo.png')} alt="session-logo" className="img-fluid" width="110" height="35" />
+                      <img src={require('Assets/img/esplLogo.png')} alt="session-logo" className="img-fluid" width="70" height="35" />
                     </Link>
                   </div>
                 </div>

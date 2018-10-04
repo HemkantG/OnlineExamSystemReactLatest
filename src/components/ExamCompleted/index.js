@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
 import QueueAnim from 'rc-queue-anim/lib';
 
-export default class Success extends Component {
+export default class NotFound extends Component {
   render() {
     return (
       <QueueAnim type="bottom" duration={2000}>
@@ -28,9 +28,8 @@ export default class Success extends Component {
             <div className="row">
               <div className="col-sm-12 col-md-12 col-lg-9 mx-auto">
                 <div className="error-body text-center">
-                  <h1 className="oops">Congratulations.. </h1>
-                  <h2 className="oops">You have cleared the test.</h2>
-                  <h2 className="mb-30">The instructions will be provided to you for further process.</h2>
+  
+                  <h2 className="bold mb-0">Examination is already completed for this user. Please contact admin in case of any issue.</h2>
                   <Button component={Link} to="/" variant="raised" className="btn-light btn-lg">Go To Home Page</Button>
                 </div>
               </div>

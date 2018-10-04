@@ -12,7 +12,7 @@ import RefreshError from "./components/RefreshError";
 import Success from "./components/Success";
 import ThankYou from "./components/Thanks";
 import Instructions from "./components/Instructions";
-
+import AccessDenied from "./components/403";
 import { configureStore } from "./store";
 
 const MainApp = () => (
@@ -22,6 +22,7 @@ const MainApp = () => (
         <Switch>
           <Route path="/register" exact component={Register} />
           <Route path="/404" exact component={NotFound} />
+          <Route path="/403" exact component={AccessDenied} />
           <Route path="/500" exact component={InternalServerError} />
           <Route path="/refreshError" exact component={RefreshError} />
           <Route path="/startTest" component={Test} />
@@ -30,7 +31,6 @@ const MainApp = () => (
           <Route path="/register" exact component={Register} />
           <Route path="/" exact component={Instructions} />
           <Route path="/*" exact component={NotFound} />
-     
         </Switch>
       </Router>
     </MuiPickersUtilsProvider>

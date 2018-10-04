@@ -25,7 +25,7 @@ export default class FormDialog extends React.Component {
 		return (
 			<div>
 				<Dialog open={this.props.showDialog} onClose={this.props.showDialogHandler} aria-labelledby="form-dialog-title">
-					<DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+					<DialogTitle id="form-dialog-title">Admin password required.</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
 							To Apply for Re-test, Enter Admin Password.

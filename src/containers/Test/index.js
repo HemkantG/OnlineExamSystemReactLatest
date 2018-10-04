@@ -286,12 +286,7 @@ class Test extends Component {
                 <div className="d-flex justify-content-between">
                   <div className="session-logo">
                     <Link to="/">
-                      <img
-                        src={AppConfig.appLogo}
-                        alt={AppConfig.brandName}
-                        width="90"
-                        height="40"
-                      />
+                      <img src={AppConfig.appLogoFull} alt="session-logo" width="200" height="30" />
                     </Link>
                   </div>
                 </div>

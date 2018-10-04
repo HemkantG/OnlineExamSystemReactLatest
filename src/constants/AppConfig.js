@@ -2,7 +2,8 @@
  * App Config File
  */
 const AppConfig = {
-    appLogo: require('Assets/img/site-logo.png'),          // App Logo
+    appLogo: require('Assets/img/esplLogo.png'), 
+    appLogoFull: require('Assets/img/esplLogoFull.png'),          // App Logo
     brandName: 'Eternus Solutions Pvt. Ltd.',                                    // Brand Name
     navCollapsed: false,                                      // Sidebar collapse
     darkMode: false,                                          // Dark Mode
