@@ -64,7 +64,7 @@ export default class StudentDetails extends Component {
   }
 
   getStreams() {
-    return axios.get('streames', { headers: { 'Access-Control-Allow-Origin': '*' } });
+    return axios.get('streams', { headers: { 'Access-Control-Allow-Origin': '*' } });
   }
 
   getStates() {
@@ -130,7 +130,7 @@ export default class StudentDetails extends Component {
         this.setState({ loading: true });
 
         localStorage.setItem('espltoken', response.headers['x-auth-token']);
-        localStorage.setItem("user_id", response.data.UserID);
+        localStorage.setItem("userId", response.data.UserID);
         localStorage.setItem("userName", response.data.UserName);
 
         // if (!response.data.TestTaken && response.data.CountLogin > 1) {

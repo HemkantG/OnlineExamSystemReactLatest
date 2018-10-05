@@ -6,8 +6,6 @@ import AppConfig from "Constants/AppConfig";
 import CountDownTimer from "Components/CountDown/CountDown";
 import Option from "../../components/Option/option";
 import DirectAnswer from "../../components/Option/directAnswer";
-
-
 import axios from "../../api";
 import Loader from "@material-ui/core/CircularProgress";
 
@@ -29,32 +27,13 @@ class Test extends Component {
     questions: null,
     loading: true,
     userName: "",
-  };
-
-  preProcessQuestions = questions => {
-    const transFormedDS = [];
-    questions.Questions.forEach(element => {
-      let options = questions.Options.filter(
-        a => element.QuestionID === a.QueID
-      );
-      let type = questions.Options.find(a => element.QuestionID === a.QueID)
-        .AnswerType;
-      transFormedDS.push({
-        Section: element.SectionName === "Section-1" ? 1 : 2,
-        Question: element.QuestionDescription,
-        Type: type,
-        Options: options
-      });
-    });
-    return transFormedDS;
+    sessionId: "",
+    userId: null
   };
 
   async componentDidMount() {
-
     if (this.props.history.action === "REPLACE") {
       const questions = this.props.history.location.state.questions;
-
-      console.log(questions);
 
       const option = this.handleDirectAnswerQuestions(
         questions[this.state.currentQuestionIndex]
@@ -62,6 +41,8 @@ class Test extends Component {
 
       this.setState(prevState => ({
         userName: localStorage.getItem("userName"),
+        userId: localStorage.getItem('userId'),
+        sessionId: localStorage.getItem('sessionId'),
         loading: false,
         questions: questions,
         currentQuestion: questions[prevState.currentQuestionIndex],
@@ -86,7 +67,6 @@ class Test extends Component {
         currentOptionIndex: prevState.currentOptionIndex + 1
       }));
     }
-
     else {
       this.props.history.push('/refreshError');
     }
@@ -97,12 +77,7 @@ class Test extends Component {
     const token = localStorage.getItem('espltoken')
     axios.post('/updateAnswer', {
       AnswerData: answerData,
-      PartialResult: {
-        AptitudeAccuracy: this.state.aptituteAccuracy,
-        AptitudeConfidence: this.state.aptitudeConfidence,
-        ComputerAccuracy: this.state.computerAccuracy,
-        ComputerConfidence: this.state.computerConfidence
-      }
+      PartialResult: this.getResultObject(),
     },
       {
         headers: {
@@ -127,11 +102,11 @@ class Test extends Component {
 
   getAnswerObject = (answer) => {
     return {
-      'UserId': localStorage.getItem('user_id'),
+      'UserId': this.state.userId,
       'QueID': this.state.currentQuestion.QId,
       'AnsID': this.state.currentQuestion.Type === 1 ? this.state.currentQuestion.Options[answer].AnswerID : null,
       'AnswerGiven': this.state.currentQuestion.Type === 2 ? answer : null,
-      'SessionID': localStorage.getItem('sessionId'),
+      'SessionID': this.state.sessionId,
       'Submitted': this.state.currentQuestionIndex
     }
   }
@@ -272,21 +247,21 @@ class Test extends Component {
     }));
   };
 
+
+  getResultObject = () => {
+    return {
+      AptitudeAccuracy: this.state.aptituteAccuracy,
+      AptitudeConfidence: this.state.aptitudeConfidence,
+      ComputerAccuracy: this.state.computerAccuracy,
+      ComputerConfidence: this.state.computerConfidence
+    }
+  }
+
   async postResult() {
-
     let token = localStorage.getItem('espltoken');
-
-
-
-
     let result = await axios.post(
       "results",
-      {
-        AptitudeAccuracy: this.state.aptituteAccuracy,
-        AptitudeConfidence: this.state.aptitudeConfidence,
-        ComputerAccuracy: this.state.computerAccuracy,
-        ComputerConfidence: this.state.computerConfidence
-      },
+      this.getResultObject(),
       {
         headers: {
           "x-auth-token": token
