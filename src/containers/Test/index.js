@@ -77,7 +77,7 @@ class Test extends Component {
     const token = localStorage.getItem('espltoken')
     axios.post('/updateAnswer', {
       AnswerData: answerData,
-      PartialResult: this.getResultObject(),
+      PartialResult: this.generateResultObject(),
     },
       {
         headers: {
@@ -88,26 +88,26 @@ class Test extends Component {
 
   onSubmit = (choosenOption) => {
     this.calculateAccuracyConfidence(choosenOption);
-    const answerData = this.getAnswerObject(choosenOption);
+    const answerData = this.generateAnswerObject(choosenOption);
     this.updateAnswerAsync(answerData);
     this.loadNextQuestion();
   };
 
   onDirectAnswerSubmit = (answer) => {
     this.calculateDirectSubmitScore(answer);
-    const answerData = this.getAnswerObject(answer);
+    const answerData = this.generateAnswerObject(answer);
     this.updateAnswerAsync(answerData);
     this.loadNextQuestion();
   };
 
-  getAnswerObject = (answer) => {
+  generateAnswerObject = (answer) => {
     return {
-      'UserId': this.state.userId,
-      'QueID': this.state.currentQuestion.QId,
-      'AnsID': this.state.currentQuestion.Type === 1 ? this.state.currentQuestion.Options[answer].AnswerID : null,
-      'AnswerGiven': this.state.currentQuestion.Type === 2 ? answer : null,
-      'SessionID': this.state.sessionId,
-      'Submitted': this.state.currentQuestionIndex
+      UserId: this.state.userId,
+      QueID: this.state.currentQuestion.QId,
+      AnsID: this.state.currentQuestion.Type === 1 ? this.state.currentQuestion.Options[answer].AnswerID : null,
+      AnswerGiven: this.state.currentQuestion.Type === 2 ? answer : null,
+      SessionID: this.state.sessionId,
+      Submitted: (this.state.currentQuestionIndex === this.state.questions.length - 1)
     }
   }
 
@@ -248,7 +248,7 @@ class Test extends Component {
   };
 
 
-  getResultObject = () => {
+  generateResultObject = () => {
     return {
       AptitudeAccuracy: this.state.aptituteAccuracy,
       AptitudeConfidence: this.state.aptitudeConfidence,
@@ -261,7 +261,7 @@ class Test extends Component {
     let token = localStorage.getItem('espltoken');
     let result = await axios.post(
       "results",
-      this.getResultObject(),
+      this.generateResultObject(),
       {
         headers: {
           "x-auth-token": token
