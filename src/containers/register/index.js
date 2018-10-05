@@ -131,6 +131,8 @@ export default class StudentDetails extends Component {
 
         localStorage.setItem('espltoken', response.headers['x-auth-token']);
         localStorage.setItem("user_id", response.data.UserID);
+        localStorage.setItem("userName", response.data.UserName);
+
         // if (!response.data.TestTaken && response.data.CountLogin > 1) {
         if (response.data.CountLogin > 1) {
           this.setState({ showDialog: true, loading: false });
@@ -159,6 +161,7 @@ export default class StudentDetails extends Component {
       let type = questions.Options.find(a => element.QuestionID === a.QueID)
         .AnswerType;
       transFormedDS.push({
+        QId:element.QuestionID,
         Section: element.SectionName === "Section-1" ? 1 : 2,
         Question: element.QuestionDescription,
         Type: type,
@@ -175,8 +178,9 @@ export default class StudentDetails extends Component {
         headers: { 'x-auth-token': token, 'admin-secret': password }
       }
     );
-    console.log(rawQuestionsData);
     const questions = this.preProcessQuestions(rawQuestionsData.data);
+    localStorage.setItem('sessionId',rawQuestionsData.data.SessionId)
+    console.log(rawQuestionsData.data);
     return questions;
   }
 
@@ -224,19 +228,19 @@ export default class StudentDetails extends Component {
                     <div className="row">
                       <div className="col-md-4">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
-                          <Input style={inputStyle} type="text" value={this.state.fname} name="user-name" id="user-name" className="has-input input-lg" placeholder="First Name" onChange={(e) => this.setState({ fname: e.target.value })} required />
+                          <Input style={inputStyle} type="text" value={this.state.fname} name="user-name" id="user-fname" className="has-input input-lg" placeholder="First Name" onChange={(e) => this.setState({ fname: e.target.value })} required />
                           <span className="has-icon"><i className="ti-user"></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-4">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
-                          <Input style={inputStyle} type="text" value={this.state.mname} name="user-name" id="user-name" className="has-input input-lg" placeholder="Middle Name" onChange={(e) => this.setState({ mname: e.target.value })} />
+                          <Input style={inputStyle} type="text" value={this.state.mname} name="user-name" id="user-mname" className="has-input input-lg" placeholder="Middle Name" onChange={(e) => this.setState({ mname: e.target.value })} />
                           <span className="has-icon"><i className="ti-user"></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-4">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
-                          <Input style={inputStyle} type="text" value={this.state.lname} name="user-name" id="user-name" className="has-input input-lg" placeholder="Last Name" onChange={(e) => this.setState({ lname: e.target.value })} required />
+                          <Input style={inputStyle} type="text" value={this.state.lname} name="user-name" id="user-lname" className="has-input input-lg" placeholder="Last Name" onChange={(e) => this.setState({ lname: e.target.value })} required />
                           <span className="has-icon"><i className="ti-user"></i></span>
                         </FormGroup>
                       </div>

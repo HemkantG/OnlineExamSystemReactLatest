@@ -7,6 +7,7 @@ import CountDownTimer from "Components/CountDown/CountDown";
 import Option from "../../components/Option/option";
 import DirectAnswer from "../../components/Option/directAnswer";
 
+
 import axios from "../../api";
 import Loader from "@material-ui/core/CircularProgress";
 
@@ -26,7 +27,8 @@ class Test extends Component {
     computerAccuracy: 0,
     computerConfidence: 0,
     questions: null,
-    loading: true
+    loading: true,
+    userName: "",
   };
 
   preProcessQuestions = questions => {
@@ -52,11 +54,14 @@ class Test extends Component {
     if (this.props.history.action === "REPLACE") {
       const questions = this.props.history.location.state.questions;
 
+      console.log(questions);
+
       const option = this.handleDirectAnswerQuestions(
         questions[this.state.currentQuestionIndex]
       );
 
       this.setState(prevState => ({
+        userName: localStorage.getItem("userName"),
         loading: false,
         questions: questions,
         currentQuestion: questions[prevState.currentQuestionIndex],
@@ -88,15 +93,48 @@ class Test extends Component {
 
   }
 
-  onSubmit = choosenOption => {
+  updateAnswerAsync = (answerData) => {
+    const token = localStorage.getItem('espltoken')
+    axios.post('/updateAnswer', {
+      AnswerData: answerData,
+      PartialResult: {
+        AptitudeAccuracy: this.state.aptituteAccuracy,
+        AptitudeConfidence: this.state.aptitudeConfidence,
+        ComputerAccuracy: this.state.computerAccuracy,
+        ComputerConfidence: this.state.computerConfidence
+      }
+    },
+      {
+        headers: {
+          "x-auth-token": token
+        }
+      })
+  }
+
+  onSubmit = (choosenOption) => {
     this.calculateAccuracyConfidence(choosenOption);
+    const answerData = this.getAnswerObject(choosenOption);
+    this.updateAnswerAsync(answerData);
     this.loadNextQuestion();
   };
 
-  onDirectAnswerSubmit = answer => {
+  onDirectAnswerSubmit = (answer) => {
     this.calculateDirectSubmitScore(answer);
+    const answerData = this.getAnswerObject(answer);
+    this.updateAnswerAsync(answerData);
     this.loadNextQuestion();
   };
+
+  getAnswerObject = (answer) => {
+    return {
+      'UserId': localStorage.getItem('user_id'),
+      'QueID': this.state.currentQuestion.QId,
+      'AnsID': this.state.currentQuestion.Type === 1 ? this.state.currentQuestion.Options[answer].AnswerID : null,
+      'AnswerGiven': this.state.currentQuestion.Type === 2 ? answer : null,
+      'SessionID': localStorage.getItem('sessionId'),
+      'Submitted': this.state.currentQuestionIndex
+    }
+  }
 
   calculateDirectSubmitScore = answer => {
     if (this.state.currentQuestion.Options[0].AnswerDescription === answer) {
@@ -238,6 +276,9 @@ class Test extends Component {
 
     let token = localStorage.getItem('espltoken');
 
+
+
+
     let result = await axios.post(
       "results",
       {
@@ -288,6 +329,9 @@ class Test extends Component {
                     <Link to="/">
                       <img src={AppConfig.appLogoFull} alt="session-logo" width="200" height="30" />
                     </Link>
+                  </div>
+                  <div>
+                    <h2>Hi, {this.state.userName}</h2>
                   </div>
                 </div>
               </div>
