@@ -8,6 +8,8 @@ import Option from "../../components/Option/option";
 import DirectAnswer from "../../components/Option/directAnswer";
 import axios from "../../api";
 import Loader from "@material-ui/core/CircularProgress";
+import MatButton from "@material-ui/core/Button";
+
 
 class Test extends Component {
   constructor(props) {
@@ -31,7 +33,7 @@ class Test extends Component {
     userId: null
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     if (this.props.history.action === "REPLACE") {
       const questions = this.props.history.location.state.questions;
 
@@ -257,11 +259,13 @@ class Test extends Component {
     }
   }
 
-  async postResult() {
+
+  postResult = async () => {
     let token = localStorage.getItem('espltoken');
+    const resultData = this.generateResultObject();
     let result = await axios.post(
       "results",
-      this.generateResultObject(),
+      { ...resultData, SubmitTest: true },
       {
         headers: {
           "x-auth-token": token
@@ -274,6 +278,11 @@ class Test extends Component {
     else
       this.props.history.push('/thanks');
 
+  }
+
+  submitTestInBetween = async () => {
+    if (confirm("Test will be submitted now. Are you sure you want to submit the test?"))
+      await this.postResult();
   }
 
   render() {
@@ -311,6 +320,16 @@ class Test extends Component {
                 </div>
               </div>
             </Toolbar>
+            <div className="container session-header">
+              <div className="d-flex justify-content-between">
+                <div></div>
+                <MatButton
+                  onClick={this.submitTestInBetween}
+                  variant="raised"
+                  className="btn-warning mr-10 mb-10 text-white btn-icon">
+                  <i className="zmdi zmdi-check-all" /> Submit Test</MatButton>
+              </div>
+            </div>
           </AppBar>
           <div className="session-inner-wrapper" style={cardStyle}>
             <div className="container">
