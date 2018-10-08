@@ -18,13 +18,13 @@ export default class FormDialog extends React.Component {
 	};
 
 	componentDidMount(){
-		this.setState({open: this.props.showDialog});
+		this.setState({open: this.props.open});
 	}
 
 	render() {
 		return (
 			<div>
-				<Dialog open={this.props.showDialog} onClose={this.props.showDialogHandler} aria-labelledby="form-dialog-title">
+				<Dialog open={this.props.open} onClose={this.props.showDialogHandler} aria-labelledby="form-dialog-title">
 					<DialogTitle id="form-dialog-title">Admin password required.</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
@@ -35,7 +35,7 @@ export default class FormDialog extends React.Component {
 					<DialogActions>
 						<Button variant="raised" onClick={this.props.showDialogHandler} color="primary" className="text-white">
 							Cancel
-            		</Button>
+            			</Button>
 						<Button variant="raised" onClick={()=>this.props.proceedHandlerWithAdminPermissions(this.state.password)} className="btn-info text-white">
 							Proceed
             		</Button>

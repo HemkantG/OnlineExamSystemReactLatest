@@ -16,7 +16,9 @@ import Loader from "@material-ui/core/CircularProgress";
 import AppConfig from 'Constants/AppConfig';
 import AdminConfirmDialog from '../../components/AdminConfirmDialog';
 
+
 export default class StudentDetails extends Component {
+
   state = {
     userId: '',
     fname: '',
@@ -43,12 +45,13 @@ export default class StudentDetails extends Component {
     },
     questions: null,
     loading: false,
-    showDialog: false
+    showDialog: false,
   }
 
   showDialogHandler = () => {
     this.setState({ showDialog: !this.state.showDialog })
   }
+
   proceedHandler = async () => {
     const questions = await this.getQuestions('questions');
     this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
@@ -57,6 +60,10 @@ export default class StudentDetails extends Component {
   proceedHandlerWithAdminPermissions = async (password) => {
     const questions = await this.getQuestions('questionswithAdminPermission', password);
     this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
+  }
+
+  onRequestForReTest=()=>{
+    console.log('Submit request')
   }
 
   getColleges() {
@@ -75,9 +82,7 @@ export default class StudentDetails extends Component {
     var self = this;
     axios1.all([this.getColleges(), this.getStreams(), this.getStates()])
       .then(axios1.spread(function (colleges, streams, states) {
-        console.log(self.state);
         self.setState({ initialData: { allColleges: colleges.data, allStreams: streams.data, allStates: states.data } });
-        console.log(self.state);
       }))
       .catch(error => {
         this.props.history.push('/500')
@@ -124,31 +129,32 @@ export default class StudentDetails extends Component {
       "RefferedByContact": this.state.referredbyContact
     }
 
+    //this.setState({ loading: true });
 
-    axios.post('users', userData, { headers: { 'Access-Control-Allow-Origin': '*' } })
-      .then(async (response) => {
-        this.setState({ loading: true });
+    try {
+      const response = await axios.post('users', userData, { headers: { 'Access-Control-Allow-Origin': '*' } })
 
-        localStorage.setItem('espltoken', response.headers['x-auth-token']);
-        localStorage.setItem("userId", response.data.UserID);
-        localStorage.setItem("userName", response.data.UserName);
+      localStorage.setItem('espltoken', response.headers['x-auth-token']);
+      localStorage.setItem("userId", response.data.UserID);
+      localStorage.setItem("userName", response.data.UserName);
 
-        // if (!response.data.TestTaken && response.data.CountLogin > 1) {
-        if (response.data.CountLogin > 1) {
-          this.setState({ showDialog: true, loading: false });
-        }
-        else if (response.data.TestTaken) {
-          //Test is done
-        }
-        else {
-          await this.proceedHandler();
-        }
-      })
-      .catch(error => {
-        this.props.history.push('/500');
-      });
+      if (response.data.TestTaken) {
+        alert('Your test is already submitted');
+        this.props.history.push('/');
+      }
+      else if (response.data.CountLogin > 1) {
+        this.setState({ showDialog: true, loading: false });
+      }
+      else {
+        await this.proceedHandler();
+      }
 
-    this.setState({ loading: false })
+    }
+    catch (error) {
+      console.log(error);
+      this.props.history.push('/500');
+    }
+    //this.setState({ loading: false })
 
   }
 
@@ -161,7 +167,7 @@ export default class StudentDetails extends Component {
       let type = questions.Options.find(a => element.QuestionID === a.QueID)
         .AnswerType;
       transFormedDS.push({
-        QId:element.QuestionID,
+        QId: element.QuestionID,
         Section: element.SectionName === "Section-1" ? 1 : 2,
         Question: element.QuestionDescription,
         Type: type,
@@ -179,8 +185,7 @@ export default class StudentDetails extends Component {
       }
     );
     const questions = this.preProcessQuestions(rawQuestionsData.data);
-    localStorage.setItem('sessionId',rawQuestionsData.data.SessionId)
-    console.log(rawQuestionsData.data);
+    localStorage.setItem('sessionId', rawQuestionsData.data.SessionId)
     return questions;
   }
 
@@ -193,7 +198,7 @@ export default class StudentDetails extends Component {
       />
     ) :
       (<div className="rct-session-wrapper">
-        <AdminConfirmDialog proceedHandlerWithAdminPermissions={this.proceedHandlerWithAdminPermissions} showDialogHandler={this.showDialogHandler} showDialog={this.state.showDialog} />
+        <AdminConfirmDialog proceedHandlerWithAdminPermissions={this.proceedHandlerWithAdminPermissions} showDialogHandler={this.showDialogHandler} open={this.state.showDialog} />
         <AppBar position="static" className="session-header">
           <Toolbar>
             <div className="container">
@@ -245,8 +250,6 @@ export default class StudentDetails extends Component {
                         </FormGroup>
                       </div>
                     </div>
-
-
                     <div className="row">
                       <div className="col-md-4" style={{ 'marginBottom': '15px' }}>
                         <FormControl fullWidth>
@@ -364,7 +367,6 @@ export default class StudentDetails extends Component {
                                       return (<MenuItem key={college.Id} value={college.collegeName}>{college.collegeName}</MenuItem>)
                                     }) : null
                                 }
-
                               </Select>
                             </FormControl>
                           </div>

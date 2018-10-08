@@ -9,12 +9,14 @@ import DirectAnswer from "../../components/Option/directAnswer";
 import axios from "../../api";
 import Loader from "@material-ui/core/CircularProgress";
 import MatButton from "@material-ui/core/Button";
+import SubmitConfirmation from "../../components/SubmitConfirmationDialog/SubmitConfirmation"
 
 
 class Test extends Component {
   constructor(props) {
     super(props);
     this.countDownTimer = React.createRef();
+    this.submitConfirmation = React.createRef();
   }
 
   state = {
@@ -30,7 +32,7 @@ class Test extends Component {
     loading: true,
     userName: "",
     sessionId: "",
-    userId: null
+    userId: null,
   };
 
   componentDidMount() {
@@ -249,7 +251,6 @@ class Test extends Component {
     }));
   };
 
-
   generateResultObject = () => {
     return {
       AptitudeAccuracy: this.state.aptituteAccuracy,
@@ -279,10 +280,12 @@ class Test extends Component {
       this.props.history.push('/thanks');
 
   }
+  submitTestInBetween=()=>{
+    this.submitConfirmation.current.open();
+  }
 
-  submitTestInBetween = async () => {
-    if (confirm("Test will be submitted now. Are you sure you want to submit the test?"))
-      await this.postResult();
+   onInBetweenTestSubmitConfirm =async () => {
+    await this.postResult();
   }
 
   render() {
@@ -331,6 +334,12 @@ class Test extends Component {
               </div>
             </div>
           </AppBar>
+
+          <SubmitConfirmation title={"Submit the test"}
+            message={"Are you sure you want to submit the test?"}
+            onConfirm={this.onInBetweenTestSubmitConfirm}
+            ref={this.submitConfirmation} open={false} />
+
           <div className="session-inner-wrapper" style={cardStyle}>
             <div className="container">
               <CountDownTimer
