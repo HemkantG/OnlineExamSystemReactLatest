@@ -53,17 +53,13 @@ export default class StudentDetails extends Component {
   }
 
   proceedHandler = async () => {
-    const questions = await this.getQuestions('questions');
+    const questions = await this.getQuestions();
     this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
   }
 
-  proceedHandlerWithAdminPermissions = async (password) => {
-    const questions = await this.getQuestions('questionswithAdminPermission', password);
-    this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
-  }
-
-  onRequestForReTest=()=>{
-    console.log('Submit request')
+  proceedHandlerWithAdminPermissions = async () => {
+    await axios.post('requestRetest', null, { headers: { 'x-auth-token': localStorage.getItem('espltoken') } })
+    alert('Retest request is submitted to the admin, kindly wait for sometime');
   }
 
   getColleges() {
@@ -101,14 +97,9 @@ export default class StudentDetails extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onFormSubmitHandler = async (event) => {
-    event.preventDefault();
-    if (this.state.gender == '' || this.state.maritalStatus == '' || this.state.state == '' || this.state.college == '' || this.state.stream == '') {
-      alert('Please Fill all the required details.');
-      return false;
-    }
 
-    let userData = {
+  getUserData = () => {
+    return {
       "UserName": this.state.userId,
       "FirstName": this.state.fname,
       "MiddleName": this.state.mname,
@@ -123,38 +114,33 @@ export default class StudentDetails extends Component {
       "PinCode": this.state.pincode,
       "City": this.state.city,
       "State": this.state.state,
-      "CollegeName": this.state.college,
+      "CollegeName": this.state.college,  
       "StreamName": this.state.stream,
       "RefferedBy": this.state.referredbyName,
       "RefferedByContact": this.state.referredbyContact
     }
+  }
 
-    //this.setState({ loading: true });
+  onFormSubmitHandler = async (event) => {
+    event.preventDefault();
+    if (this.state.gender == '' || this.state.maritalStatus == '' || this.state.state == '' || this.state.college == '' || this.state.stream == '') {
+      alert('Please Fill all the required details.');
+      return false;
+    }
+
+    let userData = this.getUserData();
+    this.setState({ loading: true });
 
     try {
       const response = await axios.post('users', userData, { headers: { 'Access-Control-Allow-Origin': '*' } })
-
-      localStorage.setItem('espltoken', response.headers['x-auth-token']);
-      localStorage.setItem("userId", response.data.UserID);
-      localStorage.setItem("userName", response.data.UserName);
-
-      if (response.data.TestTaken) {
-        alert('Your test is already submitted');
-        this.props.history.push('/');
-      }
-      else if (response.data.CountLogin > 1) {
-        this.setState({ showDialog: true, loading: false });
-      }
-      else {
-        await this.proceedHandler();
-      }
-
+      this.storeUserDetails(response);
+      await this.processTest(response);
     }
     catch (error) {
       console.log(error);
       this.props.history.push('/500');
     }
-    //this.setState({ loading: false })
+    this.setState({ loading: false })
 
   }
 
@@ -177,16 +163,44 @@ export default class StudentDetails extends Component {
     return transFormedDS;
   };
 
-  getQuestions = async (api, password) => {
+  getQuestions = async () => {
     const token = localStorage.getItem('espltoken');
-    const rawQuestionsData = await axios.get(api,
+    const rawQuestionsData = await axios.get('questions',
       {
-        headers: { 'x-auth-token': token, 'admin-secret': password }
+        headers: { 'x-auth-token': token }
       }
     );
     const questions = this.preProcessQuestions(rawQuestionsData.data);
     localStorage.setItem('sessionId', rawQuestionsData.data.SessionId)
     return questions;
+  }
+
+  async processTest(response) {
+    if (response.data.TestTaken) {
+      alert('Your have already submitted the test.');
+      this.props.history.push('/');
+    }
+    else if (response.data.CountLogin > 1) {
+      if (response.data.RetestStatus === "Requested") {
+        alert('Your retest request is already submitted. Kindly wait for some time. We are processing your request.');
+      }
+      else if (response.data.RetestStatus === "Granted") {
+        await this.proceedHandler();
+      }
+      else {
+        alert('Your test was stopped in between. You need to request for the retest');
+        this.setState({ showDialog: true, loading: false });
+      }
+    }
+    else {
+      await this.proceedHandler();
+    }
+  }
+
+  storeUserDetails(response) {
+    localStorage.setItem('espltoken', response.headers['x-auth-token']);
+    localStorage.setItem("userId", response.data.UserID);
+    localStorage.setItem("userName", response.data.UserName);
   }
 
   render() {

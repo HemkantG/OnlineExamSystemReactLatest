@@ -13,6 +13,7 @@ import Success from "./components/Success";
 import ThankYou from "./components/Thanks";
 import Instructions from "./components/Instructions";
 import AccessDenied from "./components/403";
+import RetestPermissions from "./containers/RetestPermissions";
 import { configureStore } from "./store";
 
 const MainApp = () => (
@@ -29,6 +30,7 @@ const MainApp = () => (
           <Route path="/success" component={Success} />
           <Route path="/thanks" component={ThankYou} />
           <Route path="/register" exact component={Register} />
+          <Route path="/retestPermissions" exact component={RetestPermissions} />
           <Route path="/" exact component={Instructions} />
           <Route path="/*" exact component={NotFound} />
         </Switch>

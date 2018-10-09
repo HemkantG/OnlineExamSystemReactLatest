@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -14,30 +13,35 @@ export default class FormDialog extends React.Component {
 
 	state = {
 		open: false,
-		password:''
+		password: ''
 	};
 
-	componentDidMount(){
-		this.setState({open: this.props.open});
+	componentDidMount() {
+		this.setState({ open: this.props.open });
+	}
+
+	onRequestRetest = () => {
+		this.props.showDialogHandler();
+		this.props.proceedHandlerWithAdminPermissions();
 	}
 
 	render() {
 		return (
 			<div>
 				<Dialog open={this.props.open} onClose={this.props.showDialogHandler} aria-labelledby="form-dialog-title">
-					<DialogTitle id="form-dialog-title">Admin password required.</DialogTitle>
+					<DialogTitle id="form-dialog-title">Need to request for retest.</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							To Apply for Re-test, Enter Admin Password.
-            		</DialogContentText>
-						<TextField onChange={(event) => this.setState({ password: event.target.value })} autoFocus margin="dense" id="password" label="password" type="password" fullWidth />
+							Your request for retest will be submitted to admin. Please press start test after some time.
+            			</DialogContentText>
+						{/* <TextField onChange={(event) => this.setState({ password: event.target.value })} autoFocus margin="dense" id="password" label="password" type="password" fullWidth /> */}
 					</DialogContent>
 					<DialogActions>
 						<Button variant="raised" onClick={this.props.showDialogHandler} color="primary" className="text-white">
 							Cancel
             			</Button>
-						<Button variant="raised" onClick={()=>this.props.proceedHandlerWithAdminPermissions(this.state.password)} className="btn-info text-white">
-							Proceed
+						<Button variant="raised" onClick={this.onRequestRetest} className="btn-info text-white">
+							Request
             		</Button>
 					</DialogActions>
 				</Dialog>

@@ -318,7 +318,7 @@ class Test extends Component {
                     </Link>
                   </div>
                   <div>
-                    <h2>Hi, {this.state.userName}</h2>
+                    <h3>Hi, {this.state.userName}</h3>
                   </div>
                 </div>
               </div>
