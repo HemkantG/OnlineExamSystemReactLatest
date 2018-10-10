@@ -59,7 +59,7 @@ export default class StudentDetails extends Component {
 
   proceedHandlerWithAdminPermissions = async () => {
     await axios.post('requestRetest', null, { headers: { 'x-auth-token': localStorage.getItem('espltoken') } })
-    alert('Retest request is submitted to the admin, kindly wait for sometime');
+    alert('Retest request is submitted to the admin successfully, kindly wait for some time your request will be processed shortly.');
   }
 
   getColleges() {
@@ -182,7 +182,7 @@ export default class StudentDetails extends Component {
     }
     else if (response.data.CountLogin > 1) {
       if (response.data.RetestStatus === "Requested") {
-        alert('Your retest request is already submitted. Kindly wait for some time. We are processing your request.');
+        alert('Your retest request is already submitted. Kindly wait for some time, we are processing your request.');
       }
       else if (response.data.RetestStatus === "Granted") {
         await this.proceedHandler();
@@ -239,7 +239,7 @@ export default class StudentDetails extends Component {
                       <div className="col-md-4">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="text" value={this.state.userId} name="user-id" idpx="user-id" className="has-input input-lg" placeholder="User Id" onChange={(e) => this.setState({ userId: e.target.value })} required />
-                          <span className="has-icon"><i className="ti-user"></i></span>
+                          <span className="has-icon"><i className="ti-user" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>
                     </div>
@@ -248,19 +248,19 @@ export default class StudentDetails extends Component {
                       <div className="col-md-4">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="text" value={this.state.fname} name="user-name" id="user-fname" className="has-input input-lg" placeholder="First Name" onChange={(e) => this.setState({ fname: e.target.value })} required />
-                          <span className="has-icon"><i className="ti-user"></i></span>
+                          <span className="has-icon"><i className="ti-user" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-4">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="text" value={this.state.mname} name="user-name" id="user-mname" className="has-input input-lg" placeholder="Middle Name" onChange={(e) => this.setState({ mname: e.target.value })} />
-                          <span className="has-icon"><i className="ti-user"></i></span>
+                          <span className="has-icon"><i className="ti-user" style={notRequiredStyle}></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-4">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="text" value={this.state.lname} name="user-name" id="user-lname" className="has-input input-lg" placeholder="Last Name" onChange={(e) => this.setState({ lname: e.target.value })} required />
-                          <span className="has-icon"><i className="ti-user"></i></span>
+                          <span className="has-icon"><i className="ti-user" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>
                     </div>
@@ -311,13 +311,13 @@ export default class StudentDetails extends Component {
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="text" value={this.state.contact} pattern="[6789][0-9]{9}" title="Ten Digits number only" name="user-contact" id="contact" className="has-input input-lg" placeholder="Contact Number" onChange={(e) => this.setState({ contact: e.target.value })} required />
-                          <span className="has-icon"><i className="ti-mobile"></i></span>
+                          <span className="has-icon"><i className="ti-mobile" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="mail" value={this.state.email} name="user-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Enter valid email address" id="user-mail" className="has-input input-lg" placeholder="Enter Email Address" onChange={(e) => this.setState({ email: e.target.value })} required />
-                          <span className="has-icon"><i className="ti-email"></i></span>
+                          <span className="has-icon"><i className="ti-email" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>
                     </div>
@@ -326,13 +326,13 @@ export default class StudentDetails extends Component {
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="text" value={this.state.address1} name="user-address1" id="addressLine1" className="has-input input-lg" placeholder="Address Line 1" onChange={(e) => this.setState({ address1: e.target.value })} />
-                          <span className="has-icon"><i className="ti-home"></i></span>
+                          <span className="has-icon"><i className="ti-home" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="text" value={this.state.address2} name="user-address2" id="addressLine2" className="has-input input-lg" placeholder="Address Line 2" onChange={(e) => this.setState({ address2: e.target.value })} />
-                          <span className="has-icon"><i className="ti-home"></i></span>
+                          <span className="has-icon"><i className="ti-home" style={notRequiredStyle}></i></span>
                         </FormGroup>
                       </div>
                     </div>
@@ -340,14 +340,14 @@ export default class StudentDetails extends Component {
                     <div className="row">
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
-                          <Input style={inputStyle} type="text" value={this.state.city} name="user-city" id="city" className="has-input input-lg" placeholder="City" onChange={(e) => this.setState({ city: e.target.value })} />
-                          <span className="has-icon"><i className="ti-world"></i></span>
+                          <Input style={inputStyle} type="text" value={this.state.city} name="user-city" id="city" className="has-input input-lg" placeholder="City" onChange={(e) => this.setState({ city: e.target.value })} required />
+                          <span className="has-icon"><i className="ti-world" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
-                          <Input style={inputStyle} type="text" value={this.state.pincode} name="user-pincode" id="pincode" className="has-input input-lg" placeholder="Pin Code" onChange={(e) => this.setState({ pincode: e.target.value })} />
-                          <span className="has-icon"><i className="ti-home"></i></span>
+                          <Input style={inputStyle} type="text" value={this.state.pincode} name="user-pincode" id="pincode" className="has-input input-lg" placeholder="Pin Code" onChange={(e) => this.setState({ pincode: e.target.value })} required />
+                          <span className="has-icon"><i className="ti-home" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>
                     </div>
@@ -405,13 +405,13 @@ export default class StudentDetails extends Component {
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="text" value={this.state.referredbyName} name="user-tponame" id="tpoName" className="has-input input-lg" placeholder="Referred By/TPO Details" onChange={(e) => this.setState({ referredbyName: e.target.value })} />
-                          <span className="has-icon"><i className="ti-user"></i></span>
+                          <span className="has-icon"><i className="ti-user" style={notRequiredStyle}></i></span>
                         </FormGroup>
                       </div>
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
                           <Input style={inputStyle} type="text" value={this.state.referredbyContact} name="user-tpocontact" id="user-tpocontact" pattern="[6789][0-9]{9}" title="Ten Digits Number only" className="has-input input-lg" placeholder="Referred By/TPO - Contact" onChange={(e) => this.setState({ referredbyContact: e.target.value })} />
-                          <span className="has-icon"><i className="ti-user"></i></span>
+                          <span className="has-icon"><i className="ti-user" style={notRequiredStyle}></i></span>
                         </FormGroup>
                       </div>
                     </div>
@@ -432,7 +432,6 @@ export default class StudentDetails extends Component {
       </div>);
   }
 }
-
 const loaderStyle = {
   position: "fixed",
   top: "50%",
@@ -445,4 +444,12 @@ const inputStyle = {
 
 const formGrpStyle = {
   marginBottom: "0.7rem"
+}
+
+const requiredStyle = {
+  color : 'red'
+}
+
+const notRequiredStyle = {
+  color : 'green'
 }

@@ -29,7 +29,7 @@ export default class FormDialog extends React.Component {
 		return (
 			<div>
 				<Dialog open={this.props.open} onClose={this.props.showDialogHandler} aria-labelledby="form-dialog-title">
-					<DialogTitle id="form-dialog-title">Need to request for retest.</DialogTitle>
+					<DialogTitle id="form-dialog-title">Submit request for retest.</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
 							Your request for retest will be submitted to admin. Please press start test after some time.

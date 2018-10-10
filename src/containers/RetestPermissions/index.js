@@ -8,38 +8,36 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { Table } from 'reactstrap';
 import AppConfig from 'Constants/AppConfig';
 import Loader from "@material-ui/core/CircularProgress";
+import MatButton from "@material-ui/core/Button";
+
 
 export default class ApproveRetests extends Component {
     state = {
         approvalList: [],
-        loading: true,
-        temp:true
+        loading: true
     }
-    componentDidMount() {
-        axios.get('retestCandidates', { headers: { 'Access-Control-Allow-Origin': '*' } })
-            .then(response => {
-                if (response.status >= 200 && response.status < 300)
-                    this.setState({ approvalList: response.data });
-                else
-                    alert(response.statusText);
-            })
-            .catch(error => this.props.history.push('/500'));
-
-        this.setState({ loading: false });
+    async componentDidMount() {
+        try {
+            const response = await axios.get('retestCandidates', { headers: { 'Access-Control-Allow-Origin': '*' } })
+            this.setState({ approvalList: response.data });
+            this.setState({ loading: false });
+        }
+        catch (error) {
+            this.props.history.push('/500');
+        }
     };
 
     allowRetestRequestBtnClicked = async (key, UserId, UserName) => {
 
+        this.setState({ loading: true })
         const response = await axios.post('grantRetest', { UserId: UserId, UserName: UserName }, {
             headers: {
                 'x-auth-token': localStorage.getItem('espltoken')
             }
         });
-
-        this.setState(prevState => ({
-            temp: !prevState.temp 
-        }));
-
+        const listofApprovals = [...this.state.approvalList]
+        const updatedListofApprovals = listofApprovals.filter(element => element.UserID != UserId)
+        this.setState({ approvalList: updatedListofApprovals, loading: false })
 
     };
 
@@ -92,14 +90,21 @@ export default class ApproveRetests extends Component {
                                                                 <td>{data.UserName}</td>
                                                                 <td>{data.FirstName + " " + data.LastName}</td>
                                                                 <td>
-                                                                    <Button
+                                                                    {/* <Button
                                                                         color="primary"
                                                                         className="btn-block text-white w-100"
                                                                         variant="raised"
                                                                         size="medium"
                                                                         onClick={() => this.allowRetestRequestBtnClicked(key, data.UserID, data.UserName)}>
                                                                         Approve Retest
-                                                                </Button>
+                                                                    </Button> */}
+
+                                                                    <MatButton
+                                                                        onClick={() => this.allowRetestRequestBtnClicked(key, data.UserID, data.UserName)}
+                                                                        variant="raised"
+                                                                        className="btn-success mr-10 mb-10 text-white btn-icon">
+                                                                        <i className="zmdi zmdi-check-all" /> Approve Retest
+                                                                    </MatButton>
                                                                 </td>
                                                             </tr>
                                                         )
@@ -123,3 +128,5 @@ const loaderStyle = {
     top: "50%",
     left: "50%"
 };
+
+
