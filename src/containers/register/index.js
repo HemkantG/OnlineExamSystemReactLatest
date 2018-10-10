@@ -369,7 +369,7 @@ export default class StudentDetails extends Component {
                         </FormControl>
                       </div>
                       <div className="col-md-6">
-                        <div className="row" style={{ 'marginBottom': '15px' }}>
+                        <div className="row" >
                           <div className="col-md-6">
                             <FormControl fullWidth>
                               <InputLabel htmlFor="age-simple">College</InputLabel>

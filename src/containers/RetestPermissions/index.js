@@ -38,7 +38,7 @@ export default class ApproveRetests extends Component {
             this.setState({ loading: true })
             const response = await axios.post('grantRetest', { UserId: UserId, UserName: UserName }, {
                 headers: {
-                    'x-auth-token': localStorage.getItem('espltoken')
+                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsInVzZXJOYW1lIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1MzkxNjcxMTd9.3TS9ixP9ozCT6ZF4_TM4ZVBMsKdADWoOL1I9XkrpZ4Q'
                 }
             });
             const listofApprovals = [...this.state.approvalList]
@@ -101,15 +101,6 @@ export default class ApproveRetests extends Component {
                                                                 <td>{data.UserName}</td>
                                                                 <td>{data.FirstName + " " + data.LastName}</td>
                                                                 <td>
-                                                                    {/* <Button
-                                                                        color="primary"
-                                                                        className="btn-block text-white w-100"
-                                                                        variant="raised"
-                                                                        size="medium"
-                                                                        onClick={() => this.allowRetestRequestBtnClicked(key, data.UserID, data.UserName)}>
-                                                                        Approve Retest
-                                                                    </Button> */}
-
                                                                     <MatButton
                                                                         onClick={() => this.allowRetestRequestBtnClicked(key, data.UserID, data.UserName)}
                                                                         variant="raised"
