@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from '../../api';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Table } from 'reactstrap';
 import AppConfig from 'Constants/AppConfig';
@@ -18,26 +17,38 @@ export default class ApproveRetests extends Component {
     }
     async componentDidMount() {
         try {
-            const response = await axios.get('retestCandidates', { headers: { 'Access-Control-Allow-Origin': '*' } })
+            const response = await axios.get('retestCandidates', {
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsInVzZXJOYW1lIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1MzkxNjcxMTd9.3TS9ixP9ozCT6ZF4_TM4ZVBMsKdADWoOL1I9XkrpZ4Q'
+                },
+
+            })
             this.setState({ approvalList: response.data });
             this.setState({ loading: false });
         }
         catch (error) {
-            this.props.history.push('/500');
+            this.props.history.push('/' + error.response.status);
         }
     };
 
     allowRetestRequestBtnClicked = async (key, UserId, UserName) => {
 
-        this.setState({ loading: true })
-        const response = await axios.post('grantRetest', { UserId: UserId, UserName: UserName }, {
-            headers: {
-                'x-auth-token': localStorage.getItem('espltoken')
-            }
-        });
-        const listofApprovals = [...this.state.approvalList]
-        const updatedListofApprovals = listofApprovals.filter(element => element.UserID != UserId)
-        this.setState({ approvalList: updatedListofApprovals, loading: false })
+        try {
+            this.setState({ loading: true })
+            const response = await axios.post('grantRetest', { UserId: UserId, UserName: UserName }, {
+                headers: {
+                    'x-auth-token': localStorage.getItem('espltoken')
+                }
+            });
+            const listofApprovals = [...this.state.approvalList]
+            const updatedListofApprovals = listofApprovals.filter(element => element.UserID != UserId)
+            this.setState({ approvalList: updatedListofApprovals, loading: false })
+
+        }
+        catch (error) {
+            this.props.history.push('/' + error.response.status);
+        }
 
     };
 
