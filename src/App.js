@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import MomentUtils from "material-ui-pickers/utils/moment-utils";
 import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
 import "./lib/reactifyCss";
+import Admin from "./containers/AdminLogin";
 import Register from "./containers/register";
 import Test from "./containers/Test";
 import BadRequest from "./components/Error/400";
@@ -15,7 +16,7 @@ import RefreshError from "./components/RefreshError";
 import Success from "./components/Success";
 import ThankYou from "./components/Thanks";
 import Instructions from "./components/Instructions";
-import RetestPermissions from "./containers/RetestPermissions";
+import RetestApprovals from "./containers/RetestApprovals";
 import { configureStore } from "./store";
 
 const MainApp = () => (
@@ -31,10 +32,11 @@ const MainApp = () => (
           <Route path="/500" exact component={InternalServerError} />
           <Route path="/refreshError" exact component={RefreshError} />
           <Route path="/startTest"exact component={Test} />
+          <Route path="/admin"exact component={Admin} />
           <Route path="/success" exact component={Success} />
           <Route path="/thanks" exact component={ThankYou} />
           <Route path="/register" exact component={Register} />
-          <Route path="/retestPermissions" exact component={RetestPermissions} />
+          <Route path="/retestApprovals" exact component={RetestApprovals} />
           <Route path="/" exact component={Instructions} />
           <Route path="/*" exact component={NotFound} />
         </Switch>

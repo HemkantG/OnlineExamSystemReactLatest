@@ -9,18 +9,17 @@ import AppConfig from 'Constants/AppConfig';
 import Loader from "@material-ui/core/CircularProgress";
 import MatButton from "@material-ui/core/Button";
 
-
 export default class ApproveRetests extends Component {
     state = {
         approvalList: [],
         loading: true
     }
-    async componentDidMount() {
+    async componentDidMount() { 
         try {
             const response = await axios.get('retestCandidates', {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsInVzZXJOYW1lIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1MzkxNjcxMTd9.3TS9ixP9ozCT6ZF4_TM4ZVBMsKdADWoOL1I9XkrpZ4Q'
+                    'x-auth-token': localStorage.getItem('espltoken')
                 },
 
             })
@@ -28,9 +27,21 @@ export default class ApproveRetests extends Component {
             this.setState({ loading: false });
         }
         catch (error) {
-            this.props.history.push('/' + error.response.status);
+            if (error.response.status >= 400 && error.response.status < 500) {
+                alert('Needs valid credentials');
+                this.props.history.push('/admin');
+            }
+            else {
+                this.props.history.push('/500');
+            }
         }
     };
+
+    logout = () => {
+        localStorage.removeItem('espltoken');
+        console.log('logout pressed');
+        this.props.history.push('/admin');
+    }
 
     allowRetestRequestBtnClicked = async (key, UserId, UserName) => {
 
@@ -38,7 +49,7 @@ export default class ApproveRetests extends Component {
             this.setState({ loading: true })
             const response = await axios.post('grantRetest', { UserId: UserId, UserName: UserName }, {
                 headers: {
-                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjAsInVzZXJOYW1lIjoiYWRtaW4iLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1MzkxNjcxMTd9.3TS9ixP9ozCT6ZF4_TM4ZVBMsKdADWoOL1I9XkrpZ4Q'
+                    'x-auth-token': localStorage.getItem('espltoken')
                 }
             });
             const listofApprovals = [...this.state.approvalList]
@@ -47,7 +58,13 @@ export default class ApproveRetests extends Component {
 
         }
         catch (error) {
-            this.props.history.push('/' + error.response.status);
+            if (error.response.status >= 400 && error.response.status < 500) {
+                alert('Needs valid credentials');
+                this.props.history.push('/admin');
+            }
+            else {
+                this.props.history.push('/500');
+            }
         }
 
     };
@@ -68,6 +85,13 @@ export default class ApproveRetests extends Component {
                                         <Link to="/">
                                             <img src={AppConfig.appLogoFull} alt="session-logo" width="200" height="30" />
                                         </Link>
+                                    </div>
+                                    <div>
+                                        <MatButton
+                                            onClick={this.logout}
+                                            variant="raised"
+                                            className="btn-warning mr-10 mb-10 text-white btn-icon">
+                                            <i className="zmdi zmdi-check-all" /> Logout</MatButton>
                                     </div>
                                 </div>
                             </div>
