@@ -6,13 +6,13 @@ import React, { Fragment, Component } from "react";
 export default class CountDownTimer extends Component {
     constructor(props) {
         super(props);
-        this.state = { time: {}, seconds: props.time ? props.time : 40, questionTime: 50 };
+        this.state = { time: {}, seconds: props.time ? props.time : 40, questionTime: {...props}.questionTime, timePerQuestion: {...props}.questionTime};
         this.timer = 0;
         this.countDown = this.countDown.bind(this);
     }
 
     loadNextQuestion() {
-        this.setState({ questionTime: 50 })
+        this.setState({ questionTime: this.state.timePerQuestion })
     }
 
     secondsToTime(secs) {
@@ -63,7 +63,7 @@ export default class CountDownTimer extends Component {
         // Check if we're at zero.
         if (questionTime == 0) {
             this.props.loadNextQuestion();
-            this.setState({ questionTime: 50 })
+            this.setState({ questionTime: this.state.timePerQuestion })
         }
     }
 

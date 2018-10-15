@@ -38,6 +38,7 @@ class Test extends Component {
   componentDidMount() {
     if (this.props.history.action === "REPLACE") {
       const questions = this.props.history.location.state.questions;
+      console.log(this.props.history.location.state.timePerQuestion);
 
       const option = this.handleDirectAnswerQuestions(
         questions[this.state.currentQuestionIndex]
@@ -280,11 +281,11 @@ class Test extends Component {
       this.props.history.push('/thanks');
 
   }
-  submitTestInBetween=()=>{
+  submitTestInBetween = () => {
     this.submitConfirmation.current.open();
   }
 
-   onInBetweenTestSubmitConfirm =async () => {
+  onInBetweenTestSubmitConfirm = async () => {
     await this.postResult();
   }
 
@@ -325,7 +326,9 @@ class Test extends Component {
             </Toolbar>
             <div className="container session-header">
               <div className="d-flex justify-content-between">
-                <div></div>
+                <div style={{ paddingLeft: '15px' }}>
+                  <span class="badge badge-secondary"><h3>{this.state.currentQuestion.Section === 1 ? "Aptitute Section" : "Computer Section"}</h3></span>
+                </div>
                 <MatButton
                   onClick={this.submitTestInBetween}
                   variant="raised"
@@ -343,6 +346,7 @@ class Test extends Component {
           <div className="session-inner-wrapper" style={cardStyle}>
             <div className="container">
               <CountDownTimer
+                questionTime={this.props.history.location.state.timePerQuestion}
                 ref={this.countDownTimer}
                 loadNextQuestion={this.loadNextQuestion}
               />

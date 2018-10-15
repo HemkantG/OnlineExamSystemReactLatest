@@ -53,8 +53,8 @@ export default class StudentDetails extends Component {
   }
 
   proceedHandler = async () => {
-    const questions = await this.getQuestions();
-    this.props.history.replace({ pathname: '/startTest', state: { questions: questions } })
+    const questionsData = await this.getQuestions();
+    this.props.history.replace({ pathname: '/startTest', state: { questions: questionsData.questions, timePerQuestion:questionsData.timePerQuestion } })
   }
 
   proceedHandlerWithAdminPermissions = async () => {
@@ -160,7 +160,7 @@ export default class StudentDetails extends Component {
         Options: options
       });
     });
-    return transFormedDS;
+    return {questions: transFormedDS, timePerQuestion:questions.PerQuestionTime};
   };
 
   getQuestions = async () => {
