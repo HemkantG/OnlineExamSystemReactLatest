@@ -16,7 +16,6 @@ import Loader from "@material-ui/core/CircularProgress";
 import AppConfig from 'Constants/AppConfig';
 import AdminConfirmDialog from '../../components/AdminConfirmDialog';
 
-
 export default class StudentDetails extends Component {
 
   state = {
@@ -54,7 +53,7 @@ export default class StudentDetails extends Component {
 
   proceedHandler = async () => {
     const questionsData = await this.getQuestions();
-    this.props.history.replace({ pathname: '/startTest', state: { questions: questionsData.questions, timePerQuestion:questionsData.timePerQuestion } })
+    this.props.history.replace({ pathname: '/startTest', state: { questions: questionsData.questions, timePerQuestion: questionsData.timePerQuestion } })
   }
 
   proceedHandlerWithAdminPermissions = async () => {
@@ -114,7 +113,7 @@ export default class StudentDetails extends Component {
       "PinCode": this.state.pincode,
       "City": this.state.city,
       "State": this.state.state,
-      "CollegeName": this.state.college,  
+      "CollegeName": this.state.college,
       "StreamName": this.state.stream,
       "RefferedBy": this.state.referredbyName,
       "RefferedByContact": this.state.referredbyContact
@@ -160,7 +159,7 @@ export default class StudentDetails extends Component {
         Options: options
       });
     });
-    return {questions: transFormedDS, timePerQuestion:questions.PerQuestionTime};
+    return { questions: transFormedDS, timePerQuestion: questions.PerQuestionTime };
   };
 
   getQuestions = async () => {
@@ -186,6 +185,10 @@ export default class StudentDetails extends Component {
       }
       else if (response.data.RetestStatus === "Granted") {
         await this.proceedHandler();
+      }
+      else if (response.data.RetestStatus === "Rejected") {
+        alert('Your retest request is rejected.');
+        this.props.history.push('/');
       }
       else {
         alert('Your test was stopped in between. You need to request for the retest');
@@ -226,6 +229,7 @@ export default class StudentDetails extends Component {
             </div>
           </Toolbar>
         </AppBar>
+
         <div className="session-inner-wrapper">
           <div className="container">
             <div className="row row-eq-height">
@@ -292,7 +296,7 @@ export default class StudentDetails extends Component {
                         <FormControl fullWidth>
                           <div className="rct-picker">
                             <DatePicker
-                              label="Choose a date"
+                              label="Choose Birth date"
                               value={this.state.dob}
                               onChange={this.handleDateChange}
                               animateYearScrolling={false}
@@ -447,9 +451,9 @@ const formGrpStyle = {
 }
 
 const requiredStyle = {
-  color : 'red'
+  color: 'red'
 }
 
 const notRequiredStyle = {
-  color : 'green'
+  color: 'green'
 }

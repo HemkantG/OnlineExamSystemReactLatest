@@ -1,0 +1,51 @@
+#progressBar {
+    width: 100%;
+    margin: 10px auto;
+    height: 22px;
+    background-color: #f4f7fa;
+    border-radius: 25px;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+  
+#progressBar div {
+    height: 100%;
+    text-align: right;
+    line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+    width: 0;
+    background-color: #1FD531;
+    box-sizing: border-box;
+    border-radius: 25px;
+    font-weight : bold;
+  }
+
+.progressBarContainer{
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
+.row{
+  margin: 0%;
+}
+
+  @-webkit-keyframes argh-my-eyes {
+    0%   { background-color: #fff; }
+    49% { background-color: #fff; }
+    50% { background-color: #000; }
+    99% { background-color: #000; }
+    100% { background-color: #ff0000; }
+  }
+  @-moz-keyframes argh-my-eyes {
+    0%   { background-color: #ff0000; }
+    49% { background-color: #ff0000; }
+    50% { background-color: #000; }
+    99% { background-color: #000; }
+    100% { background-color: #ff0000; }
+  }
+  @keyframes argh-my-eyes {
+    0%   { background-color: #ff0000; }
+    49% { background-color: #ff0000; }
+    50% { background-color: #000; }
+    99% { background-color: #000; }
+    100% { background-color: #ff0000; }
+  }

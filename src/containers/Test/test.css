@@ -1,0 +1,30 @@
+.cardStyle {
+    margin-top:3%;
+}
+
+.cardBody{
+    margin-top: -15px;
+    position: fixed;
+    width: 82%;
+    height: 65%;
+    overflow: auto;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    height: 10%;
+ }
+ 
+ @media (max-width: 1199px) {
+    .cardBody{
+        margin-top: 0px;
+        width: 80%;
+        height: 65vh;
+        margin-left: 8%;
+        overflow: auto;
+    }
+  } 

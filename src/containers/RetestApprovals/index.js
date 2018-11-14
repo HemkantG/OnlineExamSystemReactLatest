@@ -8,13 +8,20 @@ import { Table } from 'reactstrap';
 import AppConfig from 'Constants/AppConfig';
 import Loader from "@material-ui/core/CircularProgress";
 import MatButton from "@material-ui/core/Button";
+import SubmitConfirmation from "../../components/SubmitConfirmationDialog/SubmitConfirmation";
+
 
 export default class ApproveRetests extends Component {
+    constructor(props){
+        super(props);
+        this.rejectRetestConfirmation = React.createRef();
+    }
+
     state = {
         approvalList: [],
         loading: true
     }
-    async componentDidMount() { 
+    async componentDidMount() {
         try {
             const response = await axios.get('retestCandidates', {
                 headers: {
@@ -44,10 +51,9 @@ export default class ApproveRetests extends Component {
     }
 
     allowRetestRequestBtnClicked = async (key, UserId, UserName) => {
-
         try {
             this.setState({ loading: true })
-            const response = await axios.post('grantRetest', { UserId: UserId, UserName: UserName }, {
+            const response = await axios.post('grantRetest', { UserId: UserId, UserName: UserName, Status : 'Granted' }, {
                 headers: {
                     'x-auth-token': localStorage.getItem('espltoken')
                 }
@@ -55,7 +61,6 @@ export default class ApproveRetests extends Component {
             const listofApprovals = [...this.state.approvalList]
             const updatedListofApprovals = listofApprovals.filter(element => element.UserID != UserId)
             this.setState({ approvalList: updatedListofApprovals, loading: false })
-
         }
         catch (error) {
             if (error.response.status >= 400 && error.response.status < 500) {
@@ -66,8 +71,31 @@ export default class ApproveRetests extends Component {
                 this.props.history.push('/500');
             }
         }
-
     };
+
+    rejectRetestBtnClickHandler = async (key, UserId, UserName) =>{
+        try {
+            this.setState({ loading: true })
+            const response = await axios.post('grantRetest', { UserId: UserId, UserName: UserName, Status : 'Rejected' }, {
+                headers: {
+                    'x-auth-token': localStorage.getItem('espltoken')
+                }
+            });
+            const listofApprovals = [...this.state.approvalList]
+            const updatedListofApprovals = listofApprovals.filter(element => element.UserID != UserId)
+            this.setState({ approvalList: updatedListofApprovals, loading: false })
+        }
+        catch (error) {
+            if (error.response.status >= 400 && error.response.status < 500) {
+                alert('Needs valid credentials');
+                this.props.history.push('/admin');
+            }
+            else {
+                this.props.history.push('/500');
+            }
+        }
+      }
+
 
     render() {
         const { approvalList } = this.state;
@@ -97,11 +125,11 @@ export default class ApproveRetests extends Component {
                             </div>
                         </Toolbar>
                     </AppBar>
+                
                     <div className="session-inner-wrapper" >
                         <div className="container">
                             <div className="row row-eq-height">
-                                <div className="col-sm-4 col-md-2 col-lg-2"></div>
-                                <div className="col-sm-4 col-md-8 col-lg-8">
+                                <div className="col-sm-12 col-md-12 col-lg-12">
                                     <div className="session-body text-center">
                                         <div className="session-head mb-30">
                                             <h2 className="font-weight-bold">Retest Approval</h2>
@@ -114,7 +142,7 @@ export default class ApproveRetests extends Component {
                                                         <th>UserId </th>
                                                         <th>UserName</th>
                                                         <th>Name</th>
-                                                        <th>Grant Request</th>
+                                                        <th>Retest Request</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -128,8 +156,16 @@ export default class ApproveRetests extends Component {
                                                                     <MatButton
                                                                         onClick={() => this.allowRetestRequestBtnClicked(key, data.UserID, data.UserName)}
                                                                         variant="raised"
-                                                                        className="btn-success mr-10 mb-10 text-white btn-icon">
-                                                                        <i className="zmdi zmdi-check-all" /> Approve Retest
+                                                                        className="btn-success mr-10 mb-10 text-white btn-icon"
+                                                                        style={{width:'45%'}}>
+                                                                        <i className="zmdi zmdi-check-all" /> Approve
+                                                                    </MatButton>
+                                                                    <MatButton
+                                                                        onClick={() => this.rejectRetestBtnClickHandler(key, data.UserID, data.UserName)}
+                                                                        variant="raised"
+                                                                        className="btn-danger mr-10 mb-10 text-white btn-icon"
+                                                                        style={{width:'45%'}}>
+                                                                        <i className="zmdi zmdi-check-all" /> Reject
                                                                     </MatButton>
                                                                 </td>
                                                             </tr>

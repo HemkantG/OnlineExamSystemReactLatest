@@ -3,20 +3,34 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { Link } from "react-router-dom";
 import AppConfig from "Constants/AppConfig";
-import CountDownTimer from "Components/CountDown/CountDown";
+import CountDownTimer from "../../components/CountDownTimer/CountDownTimer";
 import Option from "../../components/Option/option";
 import DirectAnswer from "../../components/Option/directAnswer";
 import axios from "../../api";
 import Loader from "@material-ui/core/CircularProgress";
 import MatButton from "@material-ui/core/Button";
 import SubmitConfirmation from "../../components/SubmitConfirmationDialog/SubmitConfirmation"
-
+import "./test.css";
 
 class Test extends Component {
   constructor(props) {
     super(props);
     this.countDownTimer = React.createRef();
     this.submitConfirmation = React.createRef();
+
+    // window.addEventListener("beforeunload", function (event) {
+    //   if (this.window.confirm('You Progress would be completely cleared. Do you want to Proceed ?')) {
+    //     event.preventDefault();
+    //     event.returnValue = '';
+    //   }
+    // });
+
+    // if (window.performance) {
+    //   if (performance.navigation.type == 0) {
+    //   } else if(performance.navigation.type == 1){
+    //     alert( "This page is reloaded");
+    //   }
+    // }
   }
 
   state = {
@@ -32,7 +46,7 @@ class Test extends Component {
     loading: true,
     userName: "",
     sessionId: "",
-    userId: null,
+    userId: null
   };
 
   componentDidMount() {
@@ -327,7 +341,7 @@ class Test extends Component {
             <div className="container session-header">
               <div className="d-flex justify-content-between">
                 <div style={{ paddingLeft: '15px' }}>
-                  <span class="badge badge-secondary"><h3>{this.state.currentQuestion.Section === 1 ? "Aptitute Section" : "Computer Section"}</h3></span>
+                  <span className="badge badge-secondary"><h3>{this.state.currentQuestion.Section === 1 ? "Aptitute Section" : "Computer Section"}</h3></span>
                 </div>
                 <MatButton
                   onClick={this.submitTestInBetween}
@@ -343,14 +357,10 @@ class Test extends Component {
             onConfirm={this.onInBetweenTestSubmitConfirm}
             ref={this.submitConfirmation} open={false} />
 
-          <div className="session-inner-wrapper" style={cardStyle}>
+          <div className="session-inner-wrapper cardStyle">
             <div className="container">
-              <CountDownTimer
-                questionTime={this.props.history.location.state.timePerQuestion}
-                ref={this.countDownTimer}
-                loadNextQuestion={this.loadNextQuestion}
-              />
-              <div className="session-body" style={{ marginTop: "-30px" }}>
+
+              <div className="session-body cardBody">
                 <div className="session-head mb-15">
                   <h2 className="d-flex">
                     {this.state.currentQuestion != null
@@ -363,7 +373,15 @@ class Test extends Component {
                   {transformedOptions}
                 </div>
               </div>
+
             </div>
+          </div>
+          <div className="footer">
+            <CountDownTimer
+              questionTime={this.props.history.location.state.timePerQuestion}
+              ref={this.countDownTimer}
+              loadNextQuestion={this.loadNextQuestion}
+            />
           </div>
         </div>
       );
@@ -376,7 +394,4 @@ const loaderStyle = {
   left: "50%"
 };
 
-const cardStyle = {
-  marginTop: "3%"
-};
 export default Test;
