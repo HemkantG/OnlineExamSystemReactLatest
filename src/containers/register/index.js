@@ -329,7 +329,7 @@ export default class StudentDetails extends Component {
                     <div className="row">
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
-                          <Input style={inputStyle} type="text" value={this.state.address1} name="user-address1" id="addressLine1" className="has-input input-lg" placeholder="Address Line 1" onChange={(e) => this.setState({ address1: e.target.value })} />
+                          <Input style={inputStyle} type="text" value={this.state.address1} name="user-address1" id="addressLine1" className="has-input input-lg" placeholder="Address Line 1" onChange={(e) => this.setState({ address1: e.target.value })} required/>
                           <span className="has-icon"><i className="ti-home" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>
@@ -350,7 +350,7 @@ export default class StudentDetails extends Component {
                       </div>
                       <div className="col-md-6">
                         <FormGroup style={formGrpStyle} className="has-wrapper">
-                          <Input style={inputStyle} type="text" value={this.state.pincode} name="user-pincode" id="pincode" className="has-input input-lg" placeholder="Pin Code" onChange={(e) => this.setState({ pincode: e.target.value })} required />
+                          <Input style={inputStyle} type="text" value={this.state.pincode} pattern="[0-9]{6}" title="Six Digit number only" name="user-pincode" id="pincode" className="has-input input-lg" placeholder="Pin Code" onChange={(e) => this.setState({ pincode: e.target.value })} required />
                           <span className="has-icon"><i className="ti-home" style={requiredStyle}></i></span>
                         </FormGroup>
                       </div>

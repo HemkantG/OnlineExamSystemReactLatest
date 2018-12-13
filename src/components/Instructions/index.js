@@ -42,7 +42,7 @@ export default class Instructions extends Component {
                                     <li>On completion of the test please click the Submit button to submit your answers. </li>
                                     <li>
                                         <strong>
-                                            Every question has 50 seconds, if no option is selected in allotted time the question would be left unanswered.
+                                            Every question has 60 seconds, if no option is selected in allotted time the question would be left unanswered.
                                             The test would auto-submit after time is over.
                                         </strong>
                                     </li>
