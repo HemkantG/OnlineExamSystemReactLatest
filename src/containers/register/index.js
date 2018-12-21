@@ -274,9 +274,9 @@ export default class StudentDetails extends Component {
                           <InputLabel htmlFor="gender-simple">Gender</InputLabel>
                           <Select value={this.state.gender} title="Select Gender from the List"
                             inputProps={{ name: 'gender' }} onChange={this.handleChange} required>
-                            <MenuItem value={"Male"}>Male</MenuItem>
-                            <MenuItem value={"Female"}>Female</MenuItem>
-                            <MenuItem value={"Transgender"}>Transgender</MenuItem>
+                            <MenuItem value={"0"}>Male</MenuItem>
+                            <MenuItem value={"1"}>Female</MenuItem>
+                            <MenuItem value={"2"}>Transgender</MenuItem>
                           </Select>
                         </FormControl>
                       </div>
@@ -285,10 +285,10 @@ export default class StudentDetails extends Component {
                           <InputLabel htmlFor="marital-simple">Marital Status</InputLabel>
                           <Select value={this.state.maritalStatus}
                             inputProps={{ name: 'maritalStatus' }} onChange={this.handleChange} required>
-                            <MenuItem value={"Single"}>Single</MenuItem>
-                            <MenuItem value={"Married"}>Married</MenuItem>
-                            <MenuItem value={"Divorced"}>Divorced</MenuItem>
-                            <MenuItem value={"Widowed"}>Widowed</MenuItem>
+                            <MenuItem value={"0"}>Single</MenuItem>
+                            <MenuItem value={"1"}>Married</MenuItem>
+                            <MenuItem value={"2"}>Divorced</MenuItem>
+                            <MenuItem value={"3"}>Widowed</MenuItem>
                           </Select>
                         </FormControl>
                       </div>
