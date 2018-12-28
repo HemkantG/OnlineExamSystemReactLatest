@@ -54,9 +54,9 @@ export default class Instructions extends Component {
                                         If the selected option is not the right answer for that question, you lose 1 mark.
 									</li>
                                     <li>
-                                        If you think that the visible option is not the correct answer, you may view the next option.
+                                        If you think that the visible option is not the correct answer, you may view the next option. 
                                         If the newly visible option is the correct answer to the question and you select it as the answer, then you score 1 mark.
-                                        If after viewing the newly visible option you mark the previous option as answer and if it is correct you score (1 - (1/(number of options) * number of unnecessary options viewed)) marks.
+                                        If after viewing the newly visible option you mark the previous option as answer, you would score 1 mark but fail in confidently attempting it when you immediately made it visible.
 									</li>
                                     {/* <li>
                                         

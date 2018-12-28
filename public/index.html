@@ -33,16 +33,25 @@
     </noscript>
     <div id="root"></div>
     <script type="text/javascript">
-        // $(document).ready(function () {
-        //     //Disable full page
-        //     $("body").on("contextmenu", function (e) {
-        //         return false;
-        //     });
+        $(document).ready(function () {
+            //Disable full page
+            $("body").on("contextmenu", function (e) {
+                return false;
+            });
 
-        //     $('body').bind('cut copy paste', function (e) {
-        //         e.preventDefault();
-        //     });
-        // });
+            $('body').bind('cut copy paste', function (e) {
+                e.preventDefault();
+            });
+
+            $('body').keydown(function (event) {
+                if (event.keyCode == 123) { // Prevent F12
+                    return false;
+                } 
+                else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) { // Prevent Ctrl+Shift+I        
+                    return false;
+                }
+            });
+        });
     </script>
 </body>
 
