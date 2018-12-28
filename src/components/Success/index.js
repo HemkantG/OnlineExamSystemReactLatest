@@ -7,6 +7,28 @@ import { Link } from 'react-router-dom';
 import QueueAnim from 'rc-queue-anim/lib';
 
 export default class Success extends Component {
+  constructor(props){
+    super(props);
+  }
+
+  state ={
+    aptitudeAccuracy : 0,
+    computerAccuracy : 0
+  }
+
+  componentDidMount() {
+    debugger;
+    console.log(this.props);
+    if (this.props.history.action === "REPLACE") {
+      this.setState(prevState =>({
+        aptitudeAccuracy : this.props.location.state.aptitudeAccuracy,
+        computerAccuracy : this.props.location.state.computerAccuracy
+      }));
+    }
+    else if(this.props.history.action === "POP")
+      this.props.history.push('/400')
+  }
+
   render() {
     return (
       <QueueAnim type="bottom" duration={2000}>
@@ -31,6 +53,11 @@ export default class Success extends Component {
                   <h1 className="oops">Congratulations.. </h1>
                   <h2 className="oops">You have cleared the test.</h2>
                   <h2 className="mb-30">The instructions will be provided to you for further process.</h2>
+
+                  <div style={{ marginBottom:'5%', height :'20%', backgroundColor:'black'}}>
+                    <h1 style={{color :'white', textAlign: 'center', paddingTop :'10px', paddingBottom :'10px'}}>Your success code is { this.state.aptitudeAccuracy <=9 ? "0" + this.state.aptitudeAccuracy : this.state.aptitudeAccuracy}  { this.state.computerAccuracy <= 9 ? "0" + this.state.computerAccuracy : this.state.computerAccuracy}</h1>
+                  </div>
+
                   <Button component={Link} to="/" variant="raised" className="btn-light btn-lg">Go To Home Page</Button>
                 </div>
               </div>

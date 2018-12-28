@@ -139,7 +139,7 @@ export default class StudentDetails extends Component {
       console.log(error);
       this.props.history.push('/500');
     }
-    this.setState({ loading: false })
+    // this.setState({ loading: false })
 
   }
 

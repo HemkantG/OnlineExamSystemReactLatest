@@ -290,7 +290,8 @@ class Test extends Component {
     );
 
     if (result.data.SelectionStatus === "Selected")
-      this.props.history.push('/success');
+      this.props.history.replace({ pathname : '/success', state : { aptitudeAccuracy : resultData.AptitudeAccuracy , computerAccuracy : resultData.ComputerAccuracy}});
+      // this.props.history.push('/success');
     else
       this.props.history.push('/thanks');
 
@@ -355,7 +356,7 @@ class Test extends Component {
           <SubmitConfirmation title={"Submit the test"}
             message={"Are you sure you want to submit the test?"}
             onConfirm={this.onInBetweenTestSubmitConfirm}
-            ref={this.submitConfirmation} open={false} />
+            ref={this.submitConfirmation} open={false} showDialog={false}/>
 
           <div className="session-inner-wrapper cardStyle">
             <div className="container">
