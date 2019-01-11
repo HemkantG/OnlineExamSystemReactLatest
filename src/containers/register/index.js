@@ -137,9 +137,14 @@ export default class StudentDetails extends Component {
     }
     catch (error) {
       console.log(error);
-      this.props.history.push('/500');
+      if(error.response.status == 400 || error.response.status == 401){
+        alert('Invalid User ID');
+      }
+      else {
+        this.props.history.push('/500');
+      }
     }
-    // this.setState({ loading: false })
+     this.setState({ loading: false });
 
   }
 
