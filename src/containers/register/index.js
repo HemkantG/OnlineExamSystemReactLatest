@@ -137,9 +137,14 @@ export default class StudentDetails extends Component {
     }
     catch (error) {
       console.log(error);
-      this.props.history.push('/500');
+      if(error.response.status == 400 || error.response.status == 401){
+        alert('Invalid User ID');
+      }
+      else {
+        this.props.history.push('/500');
+      }
     }
-    // this.setState({ loading: false })
+     this.setState({ loading: false });
 
   }
 
@@ -271,7 +276,7 @@ export default class StudentDetails extends Component {
                     <div className="row">
                       <div className="col-md-4" style={{ 'marginBottom': '15px' }}>
                         <FormControl fullWidth>
-                          <InputLabel htmlFor="gender-simple">Gender</InputLabel>
+                          <InputLabel htmlFor="gender-simple">Gender<span style={{color:"red"}}>*</span></InputLabel>
                           <Select value={this.state.gender} title="Select Gender from the List"
                             inputProps={{ name: 'gender' }} onChange={this.handleChange} required>
                             <MenuItem value={"0"}>Male</MenuItem>
@@ -282,7 +287,7 @@ export default class StudentDetails extends Component {
                       </div>
                       <div className="col-md-4" style={{ 'marginBottom': '15px' }}>
                         <FormControl fullWidth>
-                          <InputLabel htmlFor="marital-simple">Marital Status</InputLabel>
+                          <InputLabel htmlFor="marital-simple">Marital Status<span style={{color:"red"}}>*</span></InputLabel>
                           <Select value={this.state.maritalStatus}
                             inputProps={{ name: 'maritalStatus' }} onChange={this.handleChange} required>
                             <MenuItem value={"0"}>Single</MenuItem>
@@ -359,7 +364,7 @@ export default class StudentDetails extends Component {
                     <div className="row" style={{ 'marginBottom': '15px' }}>
                       <div className="col-md-6" >
                         <FormControl fullWidth>
-                          <InputLabel htmlFor="age-simple">State</InputLabel>
+                          <InputLabel htmlFor="age-simple">State<span style={{color:"red"}}>*</span></InputLabel>
                           <Select value={this.state.state}
                             inputProps={{ name: 'state' }} onChange={this.handleChange}>
                             {
@@ -376,7 +381,7 @@ export default class StudentDetails extends Component {
                         <div className="row" >
                           <div className="col-md-6">
                             <FormControl fullWidth>
-                              <InputLabel htmlFor="age-simple">College</InputLabel>
+                              <InputLabel htmlFor="age-simple">College<span style={{color:"red"}}>*</span></InputLabel>
                               <Select value={this.state.college}
                                 inputProps={{ name: 'college' }} onChange={this.handleChange}>
                                 {
@@ -390,7 +395,7 @@ export default class StudentDetails extends Component {
                           </div>
                           <div className="col-md-6">
                             <FormControl fullWidth>
-                              <InputLabel htmlFor="age-simple">Stream</InputLabel>
+                              <InputLabel htmlFor="age-simple">Stream<span style={{color:"red"}}>*</span></InputLabel>
                               <Select value={this.state.stream}
                                 inputProps={{ name: 'stream' }} onChange={this.handleChange}>
                                 {

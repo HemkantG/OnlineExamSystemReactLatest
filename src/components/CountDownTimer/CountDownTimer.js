@@ -79,7 +79,8 @@ export default class CountDownTimer extends Component {
                 <div className="col-md-10 progressBarContainer">
                     <div id="progressBar">
                         <div className="bar" style={this.state.questionTime > (this.state.timePerQuestion - 10) ? { backgroundColor: '#FE4547', paddingRight :'5px' } : {paddingRight :'5px'}}>
-                            {Math.floor(this.state.questionTime / this.state.timePerQuestion) + ":" + this.state.questionTime % this.state.timePerQuestion}
+                            { ((Math.floor(this.state.questionTime / 60)) <= 9 ? "0" + Math.floor(this.state.questionTime / 60)  :Math.floor(this.state.questionTime / 60))  
+                            + ":" + (this.state.questionTime % 60 <= 9 ? "0" + this.state.questionTime % 60 : this.state.questionTime % 60)}
                         </div>
                     </div>
                 </div>
