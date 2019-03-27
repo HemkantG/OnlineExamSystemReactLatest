@@ -107,16 +107,10 @@ class Test extends Component {
 
   onSubmit = (choosenOption) => {
     this.calculateAccuracyConfidence(choosenOption);
-    const answerData = this.generateAnswerObject(choosenOption);
-    this.updateAnswerAsync(answerData);
-    this.loadNextQuestion();
   };
 
   onDirectAnswerSubmit = (answer) => {
     this.calculateDirectSubmitScore(answer);
-    const answerData = this.generateAnswerObject(answer);
-    this.updateAnswerAsync(answerData);
-    this.loadNextQuestion();
   };
 
   generateAnswerObject = (answer) => {
@@ -185,7 +179,7 @@ class Test extends Component {
         (1 -
           (prevState.currentOptionIndex - 1 - choosenOption) *
           (1 / prevState.currentQuestion.Options.length))
-    }));
+    }), () => { this.updateAnswerAPI(choosenOption)});
   };
 
   updateComputerScore = choosenOption => {
@@ -196,8 +190,14 @@ class Test extends Component {
         (1 -
           (prevState.currentOptionIndex - 1 - choosenOption) *
           (1 / prevState.currentQuestion.Options.length))
-    }));
+    }), () => { this.updateAnswerAPI(choosenOption)});
   };
+
+  updateAnswerAPI = (choosenOption) => {
+    const answerData = this.generateAnswerObject(choosenOption);
+    this.updateAnswerAsync(answerData);
+    this.loadNextQuestion();
+  }
 
   loadNextQuestion = async () => {
     if (this.state.currentQuestionIndex === this.state.questions.length - 1) {
