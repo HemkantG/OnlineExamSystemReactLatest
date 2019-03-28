@@ -125,39 +125,47 @@ class Test extends Component {
   }
 
   calculateDirectSubmitScore = answer => {
-    if (this.state.currentQuestion.Options[0].AnswerDescription === answer) {
+    // if (this.state.currentQuestion.Options[0].AnswerDescription === answer) {
       if (this.state.currentQuestion.Section === 1) {
-        this.updateAptituteScoreForDirectSubmission();
+        this.updateAptituteScoreForDirectSubmission(answer);
       } else {
-        this.updateComputerScoreForDirectSubmission();
+        this.updateComputerScoreForDirectSubmission(answer);
       }
+    // }
+  };
+
+  updateAptituteScoreForDirectSubmission = (answer) => {
+    if (this.state.currentQuestion.Options[0].AnswerDescription == answer) {
+    this.setState(prevState => ({
+      aptituteAccuracy: prevState.aptituteAccuracy + 1,
+      aptitudeConfidence: prevState.aptitudeConfidence + 1
+    }), () => { this.updateAnswerAPI(answer) });
+  }else {
+   this.updateAnswerAPI(answer);
+  }
+  };
+
+  updateComputerScoreForDirectSubmission = (answer) => {
+    if (this.state.currentQuestion.Options[0].AnswerDescription == answer) {
+      this.setState(prevState => ({
+      computerAccuracy: prevState.computerAccuracy + 1,
+      computerConfidence: prevState.computerConfidence  + 1
+    }), () => { this.updateAnswerAPI(answer) });
+    }else {
+     this.updateAnswerAPI(answer);
     }
   };
 
-  updateAptituteScoreForDirectSubmission = () => {
-    this.setState(prevState => ({
-      AptitudeAccuracy: prevState.AptitudeAccuracy + 1,
-      AptitudeConfidence: prevState.AptitudeConfidence + 1
-    }));
-  };
-
-  updateComputerScoreForDirectSubmission = () => {
-    this.setState(prevState => ({
-      ComputerAccuracy: prevState.ComputerAccuracy + 1,
-      ComputerConfidence: prevState.ComputerConfidence + 1
-    }));
-  };
-
   calculateAccuracyConfidence = choosenOption => {
-    if (
-      this.state.currentQuestion.Options[choosenOption].CorrectAnswer == true
-    ) {
+    // if (
+    //   this.state.currentQuestion.Options[choosenOption].CorrectAnswer == true
+    // ) {
       if (this.state.currentQuestion.Section === 1) {
         this.updateAptituteScore(choosenOption);
       } else {
         this.updateComputerScore(choosenOption);
       }
-    }
+    // }
   };
 
   handleDirectAnswerQuestions = question => {
@@ -172,17 +180,26 @@ class Test extends Component {
   };
 
   updateAptituteScore = choosenOption => {
-    this.setState(prevState => ({
-      aptituteAccuracy: prevState.aptituteAccuracy + 1,
-      aptitudeConfidence:
-        prevState.aptitudeConfidence +
-        (1 -
-          (prevState.currentOptionIndex - 1 - choosenOption) *
-          (1 / prevState.currentQuestion.Options.length))
-    }), () => { this.updateAnswerAPI(choosenOption)});
+    if (
+        this.state.currentQuestion.Options[choosenOption].CorrectAnswer == true
+      ){
+        this.setState(prevState => ({
+          aptituteAccuracy: prevState.aptituteAccuracy + 1,
+          aptitudeConfidence:
+            prevState.aptitudeConfidence +
+            (1 -
+              (prevState.currentOptionIndex - 1 - choosenOption) *
+              (1 / prevState.currentQuestion.Options.length))
+        }), () => { this.updateAnswerAPI(choosenOption)});
+  }else {
+    this.updateAnswerAPI(choosenOption);
+  }
   };
 
   updateComputerScore = choosenOption => {
+    if (
+      this.state.currentQuestion.Options[choosenOption].CorrectAnswer == true
+    ){
     this.setState(prevState => ({
       computerAccuracy: prevState.computerAccuracy + 1,
       computerConfidence:
@@ -191,6 +208,10 @@ class Test extends Component {
           (prevState.currentOptionIndex - 1 - choosenOption) *
           (1 / prevState.currentQuestion.Options.length))
     }), () => { this.updateAnswerAPI(choosenOption)});
+  }
+  else{
+    this.updateAnswerAPI(choosenOption);
+  }
   };
 
   updateAnswerAPI = (choosenOption) => {
